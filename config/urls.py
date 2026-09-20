@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from core.views import inicio, acerca
+from django.contrib.auth import views as auth_views
 
 
 # agregar las rutas de las aplicaciones del proyecto
@@ -28,5 +29,7 @@ urlpatterns = [
     path("acerca/", acerca, name="acerca"),
     # agregar las rutas de la aplicación usuarios
     path("usuarios/", include("usuarios.urls")),
+
+    
 
 ]

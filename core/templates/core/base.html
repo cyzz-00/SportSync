@@ -24,16 +24,28 @@
 
             <!-- Acceso de usuarios -->
             <div class="flex flex-wrap items-center gap-3">
-                <!-- Se habilitarán cuando existan las páginas de acceso -->
-                <button type="button" disabled
-                        class="cursor-not-allowed rounded-full border border-white/60 px-5 py-2.5 text-sm font-bold opacity-70">
-                    Iniciar sesión
-                </button>
+                {% if user.is_authenticated %}
+                    <span class="text-sm font-semibold">Hola, {{ user.first_name|default:user.username }}</span>
 
-              <a href="{% url 'usuarios:registro' %}"
-               class="rounded-full bg-[#eff77a] px-5 py-2.5 text-sm font-bold text-slate-900 transition hover:bg-[#e2ec59]">
-                Registrarse
-               </a>
+                    <form method="post" action="{% url 'usuarios:logout' %}">
+                        {% csrf_token %}
+                        <button type="submit"
+
+                                class="rounded-full border border-white/60 px-5 py-2.5 text-sm font-bold transition hover:bg-white/10">
+                            Cerrar sesión
+                        </button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'usuarios:login' %}"
+                       class="rounded-full border border-white/60 px-5 py-2.5 text-sm font-bold transition hover:bg-white/10">
+                        Iniciar sesión
+                    </a>
+
+                    <a href="{% url 'usuarios:registro' %}"
+                       class="rounded-full bg-[#eff77a] px-5 py-2.5 text-sm font-bold text-slate-900 transition hover:bg-[#e2ec59]">
+                        Registrarse
+                    </a>
+                {% endif %}
             </div>
 
         </div>
@@ -51,6 +63,7 @@
             <a href="{% url 'acerca' %}"
                class="underline underline-offset-4 hover:text-[#eff77a]">
                 Acerca del proyecto
+
             </a>
 
             <p>Proyecto académico de Desarrollo de Software V.</p>
