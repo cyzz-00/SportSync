@@ -1,13 +1,10 @@
 from django.http import HttpResponse
 
+# Crear las funciones de vista para las páginas de inicio y acerca de sportSync
+from django.shortcuts import render
 
 def inicio(request):
-    return HttpResponse(
-        "<h1><center>SportSync</h1>"
-        "<p>Sistema de Gestión de Actividades y Torneos Deportivos Amateur.</p>"
-        "<p>Mi primer proyecto Django está funcionando correctamente.</p>"
-        '<a href="/acerca/">Acerca del proyecto</a>'
-    )
+    return render(request, "core/inicio.html")
 
 def acerca(request):
     return HttpResponse(

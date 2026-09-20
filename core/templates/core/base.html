@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block titulo %}SportSync{% endblock %}</title>
+</head>
+<body>
+
+    <header>
+        <a href="{% url 'inicio' %}">SportSync</a>
+
+        <nav aria-label="Navegación principal">
+            <a href="{% url 'inicio' %}">Inicio</a>
+            <a href="{% url 'acerca' %}">Acerca del proyecto</a>
+        </nav>
+
+        <div>
+            <!-- Se habilitarán al desarrollar las páginas de acceso. -->
+            <button type="button" disabled>Iniciar sesión</button>
+            <button type="button" disabled>Registrarse</button>
+        </div>
+    </header>
+
+    <main>
+        {% block contenido %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; {% now "Y" %} SportSync.</p>
+        <p>Proyecto académico de Desarrollo de Software V.</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+{% extends "core/base.html" %}
+
+{% block titulo %}Inicio | SportSync{% endblock %}
+
+{% block contenido %}
+<section>
+    <h1>Tu próxima actividad deportiva comienza aquí</h1>
+
+    <p>
+        Descubre actividades, participa en torneos y conecta
+        con otras personas que comparten tu pasión por el deporte.
+    </p>
+
+    <a href="#como-funciona">Conoce cómo funciona</a>
+</section>
+
+<section id="como-funciona">
+    <h2>¿Cómo funciona SportSync?</h2>
+
+    <article>
+        <h3>Descubre actividades</h3>
+        <p>
+            Encuentra actividades deportivas según el deporte,
+            la fecha y la ubicación.
+        </p>
+    </article>
+
+    <article>
+        <h3>Participa</h3>
+        <p>
+            Regístrate e inscríbete en las actividades
+            disponibles que más te interesen.
+        </p>
+    </article>
+
+    <article>
+        <h3>Organiza eventos</h3>
+        <p>
+            Solicita convertirte en Organizador y, una vez
+            aprobado, crea tus propias actividades deportivas.
+        </p>
+    </article>
+</section>
+
+<section>
+    <h2>Acerca de SportSync</h2>
+
+    <p>
+        Una plataforma en desarrollo para facilitar la organización
+        de actividades y torneos deportivos amateur.
+    </p>
+
+    <a href="{% url 'acerca' %}">Conoce el proyecto</a>
+</section>
+{% endblock %}
