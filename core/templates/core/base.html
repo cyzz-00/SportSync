@@ -5,32 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>{% block titulo %}SportSync{% endblock %}</title>
+
+    <!-- Tailwind para desarrollo local -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
-<body>
 
-    <header>
-        <a href="{% url 'inicio' %}">SportSync</a>
+<body class="flex min-h-screen flex-col bg-[#0086b5] font-sans text-white">
 
-        <nav aria-label="Navegación principal">
-            <a href="{% url 'inicio' %}">Inicio</a>
-            <a href="{% url 'acerca' %}">Acerca del proyecto</a>
-        </nav>
+    <!-- Encabezado -->
+    <header class="border-b border-white/20">
+        <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6 py-6">
 
-        <div>
-            <!-- Se habilitarán al desarrollar las páginas de acceso. -->
-            <button type="button" disabled>Iniciar sesión</button>
-            <button type="button" disabled>Registrarse</button>
+            <!-- Nombre del proyecto -->
+            <a href="{% url 'inicio' %}"
+               class="text-3xl font-black tracking-tight text-[#eff77a] sm:text-4xl">
+                SportSync
+            </a>
+
+            <!-- Acceso de usuarios -->
+            <div class="flex flex-wrap items-center gap-3">
+                <!-- Se habilitarán cuando existan las páginas de acceso -->
+                <button type="button" disabled
+                        class="cursor-not-allowed rounded-full border border-white/60 px-5 py-2.5 text-sm font-bold opacity-70">
+                    Iniciar sesión
+                </button>
+
+                <button type="button" disabled
+                        class="cursor-not-allowed rounded-full bg-[#eff77a] px-5 py-2.5 text-sm font-bold text-slate-900 opacity-70">
+                    Registrarse
+                </button>
+            </div>
+
         </div>
     </header>
 
-    <main>
+    <main class="flex-1">
         {% block contenido %}
         {% endblock %}
     </main>
 
-    <footer>
-        <p>&copy; {% now "Y" %} SportSync.</p>
-        <p>Proyecto académico de Desarrollo de Software V.</p>
+    <footer class="border-t border-white/20">
+        <div class="mx-auto flex max-w-7xl flex-col gap-3 px-6 py-6 text-sm sm:flex-row sm:items-center sm:justify-between">
+            <p>&copy; {% now "Y" %} SportSync.</p>
+
+            <a href="{% url 'acerca' %}"
+               class="underline underline-offset-4 hover:text-[#eff77a]">
+                Acerca del proyecto
+            </a>
+
+            <p>Proyecto académico de Desarrollo de Software V.</p>
+        </div>
     </footer>
 
 </body>
