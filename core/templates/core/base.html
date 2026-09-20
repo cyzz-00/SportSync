@@ -25,11 +25,13 @@
             <!-- Acceso de usuarios -->
             <div class="flex flex-wrap items-center gap-3">
                 {% if user.is_authenticated %}
-                    <span class="text-sm font-semibold">Hola, {{ user.first_name|default:user.username }}</span>
+                            <span class="text-sm font-semibold">
+                            Hola, {{ user.first_name|default:user.email }}
+                            </span>
 
-                    <form method="post" action="{% url 'usuarios:logout' %}">
-                        {% csrf_token %}
-                        <button type="submit"
+                           <form method="post" action="{% url 'usuarios:logout' %}">
+                           {% csrf_token %}
+                              <button type="submit"
 
                                 class="rounded-full border border-white/60 px-5 py-2.5 text-sm font-bold transition hover:bg-white/10">
                             Cerrar sesión
