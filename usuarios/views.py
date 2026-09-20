@@ -31,3 +31,9 @@ def panel_organizador(request):
     return HttpResponse(
         "Acceso permitido: área de Organizador."
     )
+
+@roles_permitidos(Usuario.Rol.ADMINISTRADOR)
+def panel_administrador(request):
+    return HttpResponse(
+        "Acceso permitido: área de Administrador."
+    )

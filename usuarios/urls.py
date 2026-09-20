@@ -10,4 +10,5 @@ urlpatterns = [
     path("login/", auth_views.LoginView.as_view(template_name="usuarios/login.html"), name="login"),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     path( "panel-organizador/", views.panel_organizador, name="panel_organizador", ),
+        path( "panel-administrador/", views.panel_administrador, name="panel_administrador",),
 ]
