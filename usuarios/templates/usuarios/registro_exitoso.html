@@ -1,0 +1,24 @@
+{% extends "core/base.html" %}
+
+{% block titulo %}Cuenta creada | SportSync{% endblock %}
+
+{% block contenido %}
+<section class="mx-auto max-w-xl px-6 py-16">
+    <div class="rounded-2xl bg-white p-8 text-slate-900 shadow-lg">
+
+        <h1 class="text-3xl font-black text-[#00658a]">
+            ¡Cuenta creada!
+        </h1>
+
+        <p class="mt-4">
+            Tu registro se completó correctamente.
+        </p>
+
+        <a href="{% url 'inicio' %}"
+           class="mt-8 inline-flex rounded-full bg-[#eff77a] px-6 py-3 font-bold">
+            Volver al inicio
+        </a>
+
+    </div>
+</section>
+{% endblock %}
