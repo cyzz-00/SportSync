@@ -23,6 +23,7 @@ class UsuarioManager(BaseUserManager):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
         extra_fields.setdefault("is_active", True)
+        extra_fields.setdefault("rol", self.model.Rol.ADMINISTRADOR)
 
         if extra_fields.get("is_staff") is not True:
             raise ValueError("El administrador debe tener is_staff=True.")
@@ -30,10 +31,26 @@ class UsuarioManager(BaseUserManager):
         if extra_fields.get("is_superuser") is not True:
             raise ValueError("El administrador debe tener is_superuser=True.")
 
+        if extra_fields.get("rol") != self.model.Rol.ADMINISTRADOR:
+            raise ValueError("El superusuario debe tener rol Administrador.")
+
         return self.create_user(email, password, **extra_fields)
 
 
 class Usuario(AbstractUser):
+
+    class Rol(models.TextChoices):
+        PARTICIPANTE = "participante", "Participante"
+        ORGANIZADOR = "organizador", "Organizador"
+        ADMINISTRADOR = "administrador", "Administrador"
+
+    rol = models.CharField(
+        "rol",
+        max_length=20,
+        choices=Rol.choices,
+        default=Rol.PARTICIPANTE,
+    )
+
     username = None
     email = models.EmailField("correo electrónico", unique=True)
 
