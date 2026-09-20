@@ -124,3 +124,5 @@ dmypy.json
 .pyre/
 
 /config/configuracion_local.py
+/db_antes_usuarios.sqlite3
+
