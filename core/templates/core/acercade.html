@@ -1,0 +1,51 @@
+{% extends "core/base.html" %}
+
+{% block titulo %}Acerca de SportSync{% endblock %}
+
+{% block contenido %}
+<section class="mx-auto max-w-7xl px-6 py-16">
+
+    <h1 class="text-4xl font-black uppercase tracking-tight text-[#eff77a] sm:text-6xl">
+        Acerca de SportSync
+    </h1>
+
+    <p class="mt-6 max-w-3xl text-xl leading-relaxed">
+        Una plataforma para conectar personas a través del deporte
+        y facilitar la organización de actividades y torneos deportivos amateur.
+    </p>
+
+    <div class="mt-12 grid gap-6 md:grid-cols-2">
+
+        <article class="bg-[#eff77a] p-8 text-slate-900">
+            <h2 class="text-2xl font-extrabold text-[#00658a]">
+                Nuestro objetivo
+            </h2>
+
+            <p class="mt-4 leading-relaxed">
+                Facilitar la organización de actividades deportivas,
+                la inscripción de participantes y el control de asistencia
+                desde un mismo lugar.
+            </p>
+        </article>
+
+        <article class="bg-[#eff77a] p-8 text-slate-900">
+            <h2 class="text-2xl font-extrabold text-[#00658a]">
+                El proyecto
+            </h2>
+
+            <p class="mt-4 leading-relaxed">
+                SportSync es un proyecto académico en desarrollo
+                para la asignatura Desarrollo de Software V
+                de la Universidad Tecnológica de Panamá.
+            </p>
+        </article>
+
+    </div>
+
+    <a href="{% url 'inicio' %}"
+       class="mt-10 inline-flex rounded-full bg-white px-6 py-3 font-bold text-[#00658a] transition hover:bg-[#eff77a]">
+        Volver al inicio
+    </a>
+
+</section>
+{% endblock %}
