@@ -29,7 +29,7 @@ urlpatterns = [
     path("acerca/", acerca, name="acerca"),
     # agregar las rutas de la aplicación usuarios
     path("usuarios/", include("usuarios.urls")),
-
-    
+    # agregar las rutas de la aplicación actividades
+    path("actividades/", include("actividades.urls")),
 
 ]
