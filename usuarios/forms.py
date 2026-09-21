@@ -1,7 +1,12 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import Usuario
+from .models import Usuario, SolicitudOrganizador
+
+
+
+
+
 
 
 class RegistroForm(UserCreationForm):
@@ -15,6 +20,15 @@ class RegistroForm(UserCreationForm):
         label="Correo electrónico",
         required=True,
     )
+
+
+
+
+
+
+
+
+
 
     class Meta:
         model = Usuario
@@ -47,3 +61,32 @@ class RegistroForm(UserCreationForm):
 
         self.fields["first_name"].widget.attrs["autocomplete"] = "given-name"
         self.fields["email"].widget.attrs["autocomplete"] = "email"
+
+
+
+
+
+
+
+
+
+
+class SolicitudOrganizadorForm(forms.ModelForm):
+    class Meta:
+        model = SolicitudOrganizador
+        fields = ("motivo",)
+        labels = {
+            "motivo": "¿Por qué quieres ser organizador?",
+        }
+        widgets = {
+            "motivo": forms.Textarea(attrs={
+                "rows": 4,
+                "maxlength": 1000,
+                "placeholder": "Cuéntanos qué actividades te gustaría organizar.",
+                "class": (
+                    "w-full rounded-lg border border-slate-300 "
+                    "bg-white px-4 py-3 text-slate-900 "
+                    "focus:outline-none focus:ring-2 focus:ring-blue-600"
+                ),
+            }),
+        }

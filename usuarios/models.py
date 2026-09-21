@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
 
+from django.conf import settings
+
 # MODELO DE USUARIO PERSONALIZADO 
 # Se crea un modelo de usuario personalizado para utilizar el correo electrónico como identificador único en lugar del nombre de usuario.
 class UsuarioManager(BaseUserManager):
@@ -37,6 +39,16 @@ class UsuarioManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 
+
+
+
+
+
+    
+
+
+
+
 class Usuario(AbstractUser):
 
     class Rol(models.TextChoices):
@@ -65,3 +77,85 @@ class Usuario(AbstractUser):
 
     def __str__(self):
         return self.email
+
+
+
+
+
+
+
+
+
+
+
+class SolicitudOrganizador(models.Model):
+
+    class Estado(models.TextChoices):
+        PENDIENTE = "pendiente", "Pendiente"
+        APROBADA = "aprobada", "Aprobada"
+        RECHAZADA = "rechazada", "Rechazada"
+
+    participante = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="solicitudes_organizador",
+    )
+
+    motivo = models.TextField(
+        "motivo de la solicitud",
+        max_length=1000,
+    )
+
+    estado = models.CharField(
+        max_length=10,
+        choices=Estado.choices,
+        default=Estado.PENDIENTE,
+    )
+
+    fecha_solicitud = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    revisado_por = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="solicitudes_revisadas",
+    )
+
+    fecha_revision = models.DateTimeField(
+        null=True,
+        blank=True,
+    )
+
+    comentario_revision = models.TextField(
+        max_length=1000,
+        blank=True,
+    )
+
+
+
+
+
+
+
+
+
+
+
+    class Meta:
+        ordering = ["-fecha_solicitud"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["participante"],
+                condition=models.Q(estado="pendiente"),
+                name="una_solicitud_pendiente_por_usuario",
+            ),
+        ]
+
+    def __str__(self):
+        return (
+            f"{self.participante.email} - "
+            f"{self.get_estado_display()}"
+        )
