@@ -12,4 +12,5 @@ urlpatterns = [
     path( "panel-organizador/", views.panel_organizador, name="panel_organizador", ),
     path( "panel-administrador/", views.panel_administrador, name="panel_administrador",),
     path("panel-participante/",views.panel_participante, name="panel_participante",),
+    path( "solicitudes/<int:solicitud_id>/aprobar/", views.aprobar_solicitud,name="aprobar_solicitud",),
 ]

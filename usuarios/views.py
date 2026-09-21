@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from .forms import RegistroForm, SolicitudOrganizadorForm
 from django.db import IntegrityError, transaction
@@ -6,6 +6,10 @@ from django.db import IntegrityError, transaction
 from django.http import HttpResponse
 from .decorators import roles_permitidos
 from .models import Usuario, SolicitudOrganizador
+
+from django.core.exceptions import PermissionDenied
+from django.utils import timezone
+from django.views.decorators.http import require_POST
 
 
 ## Vista para el registro de nuevos usuarios.
@@ -115,3 +119,44 @@ def panel_participante(request):
             "tiene_pendiente": tiene_pendiente,
         },
     )
+
+
+
+
+
+@roles_permitidos(Usuario.Rol.ADMINISTRADOR)
+@require_POST
+def aprobar_solicitud(request, solicitud_id):
+    solicitud = get_object_or_404(
+        SolicitudOrganizador,
+        pk=solicitud_id,
+    )
+
+    with transaction.atomic():
+        actualizadas = SolicitudOrganizador.objects.filter(
+            pk=solicitud.pk,
+            estado=SolicitudOrganizador.Estado.PENDIENTE,
+        ).update(
+            estado=SolicitudOrganizador.Estado.APROBADA,
+            revisado_por=request.user,
+            fecha_revision=timezone.now(),
+            comentario_revision="Tu solicitud fue aprobada.",
+        )
+
+        if actualizadas == 0:
+            return redirect("usuarios:panel_administrador")
+
+        usuarios_actualizados = Usuario.objects.filter(
+            pk=solicitud.participante_id,
+            rol=Usuario.Rol.PARTICIPANTE,
+            is_active=True,
+        ).update(
+            rol=Usuario.Rol.ORGANIZADOR,
+        )
+
+        if usuarios_actualizados == 0:
+            raise PermissionDenied(
+                "Solo se pueden aprobar solicitudes de participantes activos."
+            )
+
+    return redirect("usuarios:panel_administrador")

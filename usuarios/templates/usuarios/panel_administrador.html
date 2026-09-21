@@ -40,6 +40,20 @@
                         {{ solicitud.motivo|linebreaksbr }}
                     </div>
                 </div>
+                <form
+                          method="post"
+                            action="{% url 'usuarios:aprobar_solicitud' solicitud.id %}"
+                            class="mt-5"
+                             >  
+                             {% csrf_token %}
+
+                              <button
+                               type="submit"
+                              class="rounded-lg bg-green-700 px-5 py-3 font-semibold text-white hover:bg-green-800"
+    >
+        Aprobar solicitud
+    </button>
+</form>
             </article>
         {% empty %}
             <p class="rounded-lg bg-slate-100 p-4">
