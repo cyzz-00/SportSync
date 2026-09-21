@@ -40,7 +40,11 @@ INSTALLED_APPS = [
     # Aplicaciones del proyecto
     'core',
     'usuarios',
+main
+    'actividades',
+
     "actividades",
+main
 ]
 
 MIDDLEWARE = [
@@ -58,7 +62,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'core' / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -131,5 +135,5 @@ AUTH_USER_MODEL = "usuarios.Usuario"
 
 # Configuración de redirección después del inicio de sesión y cierre de sesión
 LOGIN_URL = "usuarios:login"
-LOGIN_REDIRECT_URL = "inicio"
-LOGOUT_REDIRECT_URL = "inicio"
+LOGIN_REDIRECT_URL = 'core:inicio'
+LOGOUT_REDIRECT_URL = 'core:inicio'
