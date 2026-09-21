@@ -1,12 +1,19 @@
 {% extends "core/base.html" %}
 
-{% block titulo %}Crear actividad | SportSync{% endblock %}
+{% block titulo %}
+    {% if actividad %}Editar actividad{% else %}Crear actividad{% endif %}
+    | SportSync
+{% endblock %}
 
 {% block contenido %}
 <section class="mx-auto max-w-3xl px-6 py-12">
     <div class="rounded-2xl bg-white p-8 text-slate-900 shadow-lg">
         <h1 class="mb-3 text-3xl font-bold">
-            Crear actividad
+           {% if actividad %}
+    Editar actividad
+{% else %}
+    Crear actividad
+{% endif %}
         </h1>
 
         <p class="mb-6 text-slate-600">
@@ -53,7 +60,11 @@
             <div class="mt-6 flex flex-wrap gap-3">
                 <button type="submit"
                         class="rounded-lg bg-blue-700 px-5 py-3 font-semibold text-white hover:bg-blue-800">
-                    Guardar borrador
+                      {% if actividad %}
+                       Guardar cambios
+                       {% else %}
+                      Guardar borrador
+                      {% endif %}
                 </button>
 
                 <a href="{% url 'actividades:panel_actividades_organizador' %}"

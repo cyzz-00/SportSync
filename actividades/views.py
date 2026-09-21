@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_http_methods
 
 from usuarios.decorators import roles_permitidos
@@ -19,6 +19,11 @@ def panel_actividades_organizador(request):
         "actividades/panel_actividades_organizador.html",
         {"actividades": actividades},
     )
+
+
+
+
+
 
 
 @roles_permitidos(Usuario.Rol.ORGANIZADOR)
@@ -44,3 +49,43 @@ def crear_actividad(request):
         "actividades/formulario_actividad.html",
         {"form": form},
     )
+
+
+
+
+
+
+
+@roles_permitidos(Usuario.Rol.ORGANIZADOR)
+@require_http_methods(["GET", "POST"])
+def editar_actividad(request, actividad_id):
+    actividad = get_object_or_404(
+        Actividad,
+        pk=actividad_id,
+        organizador=request.user,
+        estado=Actividad.Estado.BORRADOR,
+    )
+
+    if request.method == "POST":
+        form = ActividadForm(request.POST, instance=actividad)
+
+        if form.is_valid():
+            form.save()
+
+            return redirect(
+                "actividades:panel_actividades_organizador"
+            )
+    else:
+        form = ActividadForm(instance=actividad)
+
+    return render(
+        request,
+        "actividades/formulario_actividad.html",
+        {
+            "form": form,
+            "actividad": actividad,
+        },
+    )
+
+
+
