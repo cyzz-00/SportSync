@@ -30,6 +30,23 @@
                               ·  {{ user.get_rol_display }}
                             </span>
 
+                            {% if user.rol == "administrador" %}
+    <a href="{% url 'usuarios:panel_administrador' %}"
+       class="rounded-full bg-[#eff77a] px-5 py-2.5 text-sm font-bold text-slate-900 transition hover:bg-[#e2ec59]">
+        Mi panel
+    </a>
+{% elif user.rol == "organizador" %}
+    <a href="{% url 'usuarios:panel_organizador' %}"
+       class="rounded-full bg-[#eff77a] px-5 py-2.5 text-sm font-bold text-slate-900 transition hover:bg-[#e2ec59]">
+        Mi panel
+    </a>
+{% elif user.rol == "participante" %}
+    <a href="{% url 'usuarios:panel_participante' %}"
+       class="rounded-full bg-[#eff77a] px-5 py-2.5 text-sm font-bold text-slate-900 transition hover:bg-[#e2ec59]">
+        Mi panel
+    </a>
+{% endif %}
+
                            <form method="post" action="{% url 'usuarios:logout' %}">
                            {% csrf_token %}
                               <button type="submit"
