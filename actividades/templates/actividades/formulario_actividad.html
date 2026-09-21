@@ -1,0 +1,78 @@
+{% extends "core/base.html" %}
+
+{% block titulo %}
+    {% if actividad %}Editar actividad{% else %}Crear actividad{% endif %}
+    | SportSync
+{% endblock %}
+
+{% block contenido %}
+<section class="mx-auto max-w-3xl px-6 py-12">
+    <div class="rounded-2xl bg-white p-8 text-slate-900 shadow-lg">
+        <h1 class="mb-3 text-3xl font-bold">
+           {% if actividad %}
+    Editar actividad
+{% else %}
+    Crear actividad
+{% endif %}
+        </h1>
+
+        <p class="mb-6 text-slate-600">
+            Completa los datos de tu actividad o torneo individual.
+            Se guardará como borrador.
+        </p>
+
+        <form method="post">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="mb-5 rounded-lg bg-red-100 p-4 text-red-800"
+                     role="alert">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            {% for field in form %}
+                <div class="mb-5">
+                    <label for="{{ field.id_for_label }}"
+                           class="mb-2 block font-semibold">
+                        {{ field.label }}
+                        {% if field.field.required %}
+                            <span aria-hidden="true">*</span>
+                        {% endif %}
+                    </label>
+
+                    {{ field }}
+
+                    {% if field.help_text %}
+                        <p class="mt-2 text-sm text-slate-500">
+                            {{ field.help_text }}
+                        </p>
+                    {% endif %}
+
+                    {% for error in field.errors %}
+                        <p class="mt-2 text-sm text-red-700" role="alert">
+                            {{ error }}
+                        </p>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
+            <div class="mt-6 flex flex-wrap gap-3">
+                <button type="submit"
+                        class="rounded-lg bg-blue-700 px-5 py-3 font-semibold text-white hover:bg-blue-800">
+                      {% if actividad %}
+                       Guardar cambios
+                       {% else %}
+                      Guardar borrador
+                      {% endif %}
+                </button>
+
+                <a href="{% url 'actividades:panel_actividades_organizador' %}"
+                   class="rounded-lg border border-slate-300 px-5 py-3 font-semibold hover:bg-slate-100">
+                    Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}
