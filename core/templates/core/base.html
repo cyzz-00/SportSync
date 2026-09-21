@@ -18,6 +18,7 @@
     <!-- Aquí inyectaremos Tailwind SOLO en las páginas que lo necesiten -->
     {% block extra_css %}{% endblock %}
 </head>
+main
 <body>
 
     <!-- Barra de Navegación -->
@@ -69,6 +70,65 @@
                         </li>
                     {% endif %}
                 </ul>
+
+
+<body class="flex min-h-screen flex-col bg-[#0086b5] font-sans text-white">
+
+    <!-- Encabezado -->
+    <header class="border-b border-white/20">
+        <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6 py-6">
+
+            <!-- Nombre del proyecto -->
+            <a href="{% url 'inicio' %}"
+               class="text-3xl font-black tracking-tight text-[#eff77a] sm:text-4xl">
+                SportSync
+            </a>
+
+            <!-- Acceso de usuarios -->
+            <div class="flex flex-wrap items-center gap-3">
+                {% if user.is_authenticated %}
+                           <span class="text-sm font-semibold">
+                               Hola, {{ user.first_name|default:user.email }}
+                              ·  {{ user.get_rol_display }}
+                            </span>
+
+                            {% if user.rol == "administrador" %}
+    <a href="{% url 'usuarios:panel_administrador' %}"
+       class="rounded-full bg-[#eff77a] px-5 py-2.5 text-sm font-bold text-slate-900 transition hover:bg-[#e2ec59]">
+        Mi panel
+    </a>
+{% elif user.rol == "organizador" %}
+    <a href="{% url 'actividades:panel_actividades_organizador' %}"
+       class="rounded-full bg-[#eff77a] px-5 py-2.5 text-sm font-bold text-slate-900 transition hover:bg-[#e2ec59]">
+        Mi panel
+    </a>
+{% elif user.rol == "participante" %}
+    <a href="{% url 'usuarios:panel_participante' %}"
+       class="rounded-full bg-[#eff77a] px-5 py-2.5 text-sm font-bold text-slate-900 transition hover:bg-[#e2ec59]">
+        Mi panel
+    </a>
+{% endif %}
+
+                           <form method="post" action="{% url 'usuarios:logout' %}">
+                           {% csrf_token %}
+                              <button type="submit"
+
+                                class="rounded-full border border-white/60 px-5 py-2.5 text-sm font-bold transition hover:bg-white/10">
+                            Cerrar sesión
+                        </button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'usuarios:login' %}"
+                       class="rounded-full border border-white/60 px-5 py-2.5 text-sm font-bold transition hover:bg-white/10">
+                        Iniciar sesión
+                    </a>
+
+                    <a href="{% url 'usuarios:registro' %}"
+                       class="rounded-full bg-[#eff77a] px-5 py-2.5 text-sm font-bold text-slate-900 transition hover:bg-[#e2ec59]">
+                        Registrarse
+                    </a>
+                {% endif %}
+main
             </div>
         </div>
     </nav>
