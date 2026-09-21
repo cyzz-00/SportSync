@@ -1,0 +1,100 @@
+{% extends "core/base.html" %}
+
+{% block titulo %}Panel del participante | SportSync{% endblock %}
+
+{% block contenido %}
+<section class="mx-auto max-w-3xl px-6 py-12">
+    <div class="rounded-2xl bg-white p-8 text-slate-900 shadow-lg">
+        <h1 class="mb-4 text-3xl font-bold">
+            Panel del participante
+        </h1>
+
+        <p class="mb-6">
+            Hola, {{ user.first_name|default:user.email }}.
+            Desde aquí podrás consultar tu solicitud para ser organizador.
+        </p>
+
+        <div class="rounded-lg border border-slate-200 p-5">
+            <h2 class="mb-3 text-xl font-semibold">
+                Solicitud para ser organizador
+            </h2>
+
+            {% if solicitud %}
+                <p>
+                    <strong>Estado:</strong>
+                    {{ solicitud.get_estado_display }}
+                </p>
+
+                <p class="mt-2">
+                    <strong>Fecha:</strong>
+                    {{ solicitud.fecha_solicitud|date:"d/m/Y H:i" }}
+                </p>
+
+                <div class="mt-3">
+                    <strong>Motivo:</strong>
+                    {{ solicitud.motivo|linebreaksbr }}
+                </div>
+
+                {% if solicitud.comentario_revision %}
+                    <div class="mt-3">
+                        <strong>Comentario del administrador:</strong>
+                        {{ solicitud.comentario_revision|linebreaksbr }}
+                    </div>
+                {% endif %}
+            {% else %}
+                <p>Todavía no has enviado una solicitud.</p>
+            {% endif %}
+            {% if tiene_pendiente %}
+    <p class="mt-5 rounded-lg bg-yellow-100 p-4 text-yellow-900">
+        Tu solicitud está pendiente de revisión.
+        Debes esperar la respuesta de un administrador.
+    </p>
+{% else %}
+    <form
+        method="post"
+        action="{% url 'usuarios:panel_participante' %}"
+        class="mt-6"
+    >
+        {% csrf_token %}
+
+        <h3 class="mb-4 text-lg font-semibold">
+            Solicitar ser organizador
+        </h3>
+
+        {% if form.non_field_errors %}
+            <div class="mb-3 text-red-700" role="alert">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <label
+            for="{{ form.motivo.id_for_label }}"
+            class="mb-2 block font-medium"
+        >
+            {{ form.motivo.label }}
+        </label>
+
+        {{ form.motivo }}
+
+        {% if form.motivo.errors %}
+            <div class="mt-2 text-sm text-red-700" role="alert">
+                {{ form.motivo.errors }}
+            </div>
+        {% endif %}
+
+        <p class="mt-2 text-sm text-slate-500">
+            Máximo 1000 caracteres.
+        </p>
+
+        <button
+            type="submit"
+            class="mt-4 rounded-lg bg-blue-700 px-5 py-3 font-semibold text-white hover:bg-blue-800"
+        >
+            Enviar solicitud
+        </button>
+    </form>
+{% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}
