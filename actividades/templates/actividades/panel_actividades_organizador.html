@@ -1,0 +1,77 @@
+{% extends "core/base.html" %}
+
+{% block titulo %}Mis actividades | SportSync{% endblock %}
+
+{% block contenido %}
+<section class="mx-auto max-w-5xl px-6 py-12">
+    <div class="rounded-2xl bg-white p-8 text-slate-900 shadow-lg">
+
+        <div class="mb-8 flex flex-wrap items-center justify-between gap-4">
+            <div>
+                <h1 class="text-3xl font-bold">Mis actividades</h1>
+                <p class="mt-2 text-slate-600">
+                    Consulta las actividades y torneos que has creado.
+                </p>
+            </div>
+
+            <a href="{% url 'actividades:crear_actividad' %}"
+               class="rounded-lg bg-blue-700 px-5 py-3 font-semibold text-white hover:bg-blue-800">
+                Crear actividad
+            </a>
+        </div>
+
+        {% for actividad in actividades %}
+            <article class="mb-5 rounded-lg border border-slate-200 p-5">
+                <h2 class="break-words text-xl font-semibold">
+                    {{ actividad.nombre }}
+                </h2>
+
+                <p class="mt-2">
+                    <strong>Tipo:</strong> {{ actividad.get_tipo_display }}
+                </p>
+
+                <p class="mt-2">
+                    <strong>Deporte:</strong> {{ actividad.deporte }}
+                </p>
+
+                <p class="mt-2 break-words">
+                    <strong>Ubicación:</strong> {{ actividad.ubicacion }}
+                </p>
+
+                <p class="mt-2">
+                    <strong>Inicio:</strong>
+                    {{ actividad.fecha_inicio|date:"d/m/Y H:i" }}
+                </p>
+
+                <p class="mt-2">
+                    <strong>Finalización:</strong>
+                    {{ actividad.fecha_fin|date:"d/m/Y H:i" }}
+                </p>
+
+                <p class="mt-2">
+                    <strong>Cupo máximo:</strong> {{ actividad.cupo_maximo }}
+                </p>
+
+                <p class="mt-2">
+                    <strong>Costo:</strong>
+                    {% if actividad.costo == 0 %}
+                        Gratuita
+                    {% else %}
+                        ${{ actividad.costo|floatformat:2 }}
+                    {% endif %}
+                </p>
+
+                <p class="mt-2">
+                    <strong>Estado:</strong> {{ actividad.get_estado_display }}
+                </p>
+            </article>
+        {% empty %}
+            <p class="rounded-lg bg-slate-100 p-5 text-slate-600">
+                Todavía no has creado actividades.
+                Usa el botón “Crear actividad” para comenzar.
+            </p>
+        {% endfor %}
+
+    </div>
+</section>
+{% endblock %}
