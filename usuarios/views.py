@@ -123,6 +123,7 @@ def panel_participante(request):
 
 
 
+# Esta vista permite a un administrador aprobar una solicitud de organizador. Solo se puede aprobar una solicitud si está en estado pendiente y el participante asociado es activo.
 
 @roles_permitidos(Usuario.Rol.ADMINISTRADOR)
 @require_POST
@@ -158,5 +159,28 @@ def aprobar_solicitud(request, solicitud_id):
             raise PermissionDenied(
                 "Solo se pueden aprobar solicitudes de participantes activos."
             )
+
+    return redirect("usuarios:panel_administrador")
+
+
+  # Esta vista permite a un administrador aprobar una solicitud de organizador. Solo se puede aprobar una solicitud si está en estado pendiente y el participante asociado es activo.
+
+@roles_permitidos(Usuario.Rol.ADMINISTRADOR)
+@require_POST
+def rechazar_solicitud(request, solicitud_id):
+    solicitud = get_object_or_404(
+        SolicitudOrganizador,
+        pk=solicitud_id,
+    )
+
+    SolicitudOrganizador.objects.filter(
+        pk=solicitud.pk,
+        estado=SolicitudOrganizador.Estado.PENDIENTE,
+    ).update(
+        estado=SolicitudOrganizador.Estado.RECHAZADA,
+        revisado_por=request.user,
+        fecha_revision=timezone.now(),
+        comentario_revision="Tu solicitud fue rechazada.",
+    )
 
     return redirect("usuarios:panel_administrador")
